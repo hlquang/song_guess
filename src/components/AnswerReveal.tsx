@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from 'react';
 import { useGameContext } from '../context/GameContext';
 
 export default function AnswerReveal() {
@@ -9,6 +10,97 @@ export default function AnswerReveal() {
   }
 
   const isWon = gameStatus === 'WON';
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [currentTime, setCurrentTime] = useState(0);
+  const [duration, setDuration] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    if (!currentTrack?.preview_url) return;
+    const audio = new Audio(currentTrack.preview_url);
+    audio.preload = 'auto';
+    audioRef.current = audio;
+
+    const handleTimeUpdate = () => {
+      setCurrentTime(audio.currentTime);
+    };
+    const handleLoadedMetadata = () => {
+      setDuration(audio.duration);
+      setIsLoading(false);
+    };
+    const handleEnded = () => {
+      setIsPlaying(false);
+      setCurrentTime(0);
+      audio.currentTime = 0;
+    };
+    const handleError = () => {
+      setIsLoading(false);
+      setIsPlaying(false);
+    };
+
+    audio.addEventListener('timeupdate', handleTimeUpdate);
+    audio.addEventListener('loadedmetadata', handleLoadedMetadata);
+    audio.addEventListener('ended', handleEnded);
+    audio.addEventListener('error', handleError);
+
+    return () => {
+      audio.pause();
+      audio.removeEventListener('timeupdate', handleTimeUpdate);
+      audio.removeEventListener('loadedmetadata', handleLoadedMetadata);
+      audio.removeEventListener('ended', handleEnded);
+      audio.removeEventListener('error', handleError);
+      audio.removeAttribute('src');
+      audio.load();
+      audioRef.current = null;
+      setIsPlaying(false);
+      setIsLoading(false);
+    };
+  }, [currentTrack?.preview_url]);
+
+  const togglePlay = async () => {
+    if (!audioRef.current) return;
+    if (isPlaying) {
+      audioRef.current.pause();
+      setIsPlaying(false);
+    } else {
+      setIsLoading(true);
+      try {
+        if (audioRef.current.ended) {
+          audioRef.current.currentTime = 0;
+        }
+        await audioRef.current.play();
+        setIsPlaying(true);
+      } catch {
+        setIsPlaying(false);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+  };
+
+  const handleBarClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    const audio = audioRef.current;
+    if (!audio || !duration) return;
+    const rect = e.currentTarget.getBoundingClientRect();
+    const fraction = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+    const targetTime = fraction * duration;
+    audio.currentTime = targetTime;
+    setCurrentTime(targetTime);
+  };
+
+  const handleNext = () => {
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.currentTime = 0;
+      setCurrentTime(0);
+      setIsPlaying(false);
+    }
+    nextTrack();
+  };
+
+  const progress = duration > 0 ? currentTime / duration : 0;
+  const hasPreview = !!currentTrack.preview_url;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-pink-900/30 p-4">
@@ -33,6 +125,47 @@ export default function AnswerReveal() {
             <p className="text-pink-500 mt-1">{currentTrack.primary_artist}</p>
           </div>
 
+          <div className="w-full flex items-center gap-3">
+            <button
+              onClick={togglePlay}
+              disabled={!hasPreview || isLoading}
+              className="shrink-0 w-10 h-10 flex items-center justify-center bg-pink-500 text-white rounded-full hover:bg-pink-600 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+              aria-label={isPlaying ? 'Tạm dừng' : 'Phát'}
+            >
+              {isLoading ? (
+                <svg className="w-5 h-5 animate-spin" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <circle cx="12" cy="12" r="10" strokeDasharray="31.4" strokeDashoffset="10" strokeLinecap="round" />
+                </svg>
+              ) : isPlaying ? (
+                <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M6 4h4v16H6zM14 4h4v16h-4z" />
+                </svg>
+              ) : (
+                <svg className="w-5 h-5 ml-0.5" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M8 5v14l11-7z" />
+                </svg>
+              )}
+            </button>
+            <div
+              className="flex-1 h-2 bg-pink-100 rounded-full overflow-hidden"
+              onClick={hasPreview ? handleBarClick : undefined}
+              role={hasPreview ? 'slider' : undefined}
+              aria-label="Audio progress"
+              aria-valuemin={0}
+              aria-valuemax={Math.floor(duration || 0)}
+              aria-valuenow={Math.floor(currentTime)}
+              tabIndex={hasPreview ? 0 : undefined}
+            >
+              <div
+                className="h-full bg-pink-500 rounded-full transition-all"
+                style={{ width: `${progress * 100}%` }}
+              />
+            </div>
+            {!hasPreview && (
+              <span className="text-xs text-gray-400 shrink-0">Không có preview</span>
+            )}
+          </div>
+
           <a
             href={currentTrack.spotify_url}
             target="_blank"
@@ -46,7 +179,7 @@ export default function AnswerReveal() {
           </a>
 
           <button
-            onClick={nextTrack}
+            onClick={handleNext}
             className="mt-2 px-6 py-2 bg-pink-100 text-gray-700 rounded-lg hover:bg-pink-200 transition-colors"
           >
             Bài tiếp theo
