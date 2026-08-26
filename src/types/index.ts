@@ -22,6 +22,7 @@ export interface PlayerStats {
   maxStreak: number;
   totalPlayed: number;
   totalCorrect: number;
+  lightningCount: number;
 }
 
 export interface LocalStorageSchema {

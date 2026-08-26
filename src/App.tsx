@@ -76,7 +76,7 @@ function App() {
   if (error) {
     return (
       <div className="min-h-screen bg-pink-50 text-gray-800 flex items-center justify-center">
-        <div className="text-red-500">Failed to load track data. Please refresh.</div>
+        <div className="text-red-500">Tải dữ liệu nhạc thất bại. Hãy thử lại.</div>
       </div>
     );
   }

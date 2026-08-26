@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useGameContext } from '../context/GameContext';
 import { useAudioController } from '../hooks/useAudioController';
 import { STEP_THRESHOLDS } from '../utils/audioTiming';
@@ -7,6 +7,7 @@ export default function AudioPlayer() {
   const ctx = useGameContext();
   const { currentTrack, currentStep, gameStatus, isPlaying, advanceStep, play, pause, giveUp, attempts } = ctx;
   const [wrongFlash, setWrongFlash] = useState(false);
+  const [isDragging, setIsDragging] = useState(false);
 
   useEffect(() => {
     const last = attempts[attempts.length - 1];
@@ -64,7 +65,73 @@ export default function AudioPlayer() {
     }
   }, [isPlaying, play, pause, currentTime, currentThreshold, restart]);
 
+  const barRef = useRef<HTMLDivElement>(null);
+  const dragRef = useRef(false);
+  const wasPlayingRef = useRef(false);
+  const hasDraggedRef = useRef(false);
+  const startXRef = useRef(0);
+  const currentThresholdRef = useRef(currentThreshold);
+  const maxThresholdRef = useRef(maxThreshold);
+  const seekToTimeRef = useRef(seekToTime);
+  const playRef = useRef(play);
+  const pauseRef = useRef(pause);
+
+  useEffect(() => { currentThresholdRef.current = currentThreshold; }, [currentThreshold]);
+  useEffect(() => { maxThresholdRef.current = maxThreshold; }, [maxThreshold]);
+  useEffect(() => { seekToTimeRef.current = seekToTime; }, [seekToTime]);
+  useEffect(() => { playRef.current = play; }, [play]);
+  useEffect(() => { pauseRef.current = pause; }, [pause]);
+
+  const handleBarMouseDown = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    setIsDragging(true);
+    dragRef.current = true;
+    hasDraggedRef.current = false;
+    startXRef.current = e.clientX;
+    wasPlayingRef.current = isPlaying;
+
+    const handleMouseMove = (moveEvent: MouseEvent) => {
+      const bar = barRef.current;
+      if (!bar) return;
+      const rect = bar.getBoundingClientRect();
+      const fraction = Math.max(0, Math.min(1, (moveEvent.clientX - rect.left) / rect.width));
+      const targetTime = fraction * maxThresholdRef.current;
+
+      if (targetTime > currentThresholdRef.current) return;
+
+      const dx = Math.abs(moveEvent.clientX - startXRef.current);
+      if (dx > 3) {
+        hasDraggedRef.current = true;
+        if (wasPlayingRef.current) {
+          pauseRef.current();
+        }
+      }
+
+      if (hasDraggedRef.current) {
+        seekToTimeRef.current(targetTime);
+      }
+    };
+
+    const handleMouseUp = () => {
+      dragRef.current = false;
+      setIsDragging(false);
+      document.removeEventListener('mousemove', handleMouseMove);
+      document.removeEventListener('mouseup', handleMouseUp);
+
+      if (hasDraggedRef.current && wasPlayingRef.current) {
+        setTimeout(() => playRef.current(), 0);
+      }
+    };
+
+    document.addEventListener('mousemove', handleMouseMove);
+    document.addEventListener('mouseup', handleMouseUp);
+  }, [isPlaying]);
+
   const handleBarClick = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    if (hasDraggedRef.current) {
+      e.stopPropagation();
+      return;
+    }
     const rect = e.currentTarget.getBoundingClientRect();
     const fraction = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
     const targetTime = fraction * maxThreshold;
@@ -73,6 +140,47 @@ export default function AudioPlayer() {
 
     seekToTime(targetTime);
   }, [currentThreshold, maxThreshold, seekToTime]);
+
+  const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
+    const touch = e.touches[0];
+    dragRef.current = true;
+    hasDraggedRef.current = false;
+    startXRef.current = touch.clientX;
+    wasPlayingRef.current = isPlaying;
+  };
+
+  const handleTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
+    if (!dragRef.current) return;
+    const touch = e.touches[0];
+    const bar = barRef.current;
+    if (!bar) return;
+    const rect = bar.getBoundingClientRect();
+    const fraction = Math.max(0, Math.min(1, (touch.clientX - rect.left) / rect.width));
+    const targetTime = fraction * maxThreshold;
+
+    if (targetTime > currentThreshold) return;
+
+    const dx = Math.abs(touch.clientX - startXRef.current);
+    if (dx > 3) {
+      hasDraggedRef.current = true;
+      if (wasPlayingRef.current && isPlaying) {
+        pause();
+      }
+    }
+
+    if (hasDraggedRef.current) {
+      seekToTime(targetTime);
+    }
+  };
+
+  const handleTouchEnd = () => {
+    if (!dragRef.current) return;
+    dragRef.current = false;
+
+    if (hasDraggedRef.current && wasPlayingRef.current) {
+      setTimeout(() => play(), 0);
+    }
+  };
 
   if (!currentTrack) return null;
 
@@ -106,8 +214,14 @@ export default function AudioPlayer() {
 
         {/* Bar */}
         <div
-          className="relative h-3 bg-pink-200 rounded-full cursor-pointer"
+          ref={barRef}
+          className={`relative h-3 bg-pink-200 rounded-full ${isDragging ? 'cursor-grabbing' : 'cursor-pointer'}`}
+          style={{ userSelect: isDragging ? 'none' : undefined }}
+          onMouseDown={handleBarMouseDown}
           onClick={handleBarClick}
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd}
           role="slider"
           aria-label="Audio timeline"
           aria-valuemin={0}

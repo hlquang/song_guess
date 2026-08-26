@@ -8,6 +8,7 @@ const DEFAULT_STATS: PlayerStats = {
   maxStreak: 0,
   totalPlayed: 0,
   totalCorrect: 0,
+  lightningCount: 0,
 };
 
 interface GameState {
@@ -17,6 +18,7 @@ interface GameState {
   attempts: GuessAttempt[];
   isPlaying: boolean;
   currentTime: number;
+  playedTrackIds: string[];
 }
 
 type GameAction =
@@ -54,12 +56,16 @@ function gameReducer(state: GameState, action: GameAction): GameState {
         ...state,
         attempts: [...state.attempts, attempt],
         gameStatus: correct ? 'WON' : state.gameStatus,
+        playedTrackIds: correct && state.currentTrack
+          ? [...state.playedTrackIds, state.currentTrack.id]
+          : state.playedTrackIds,
       };
     }
     case 'GIVE_UP':
       return {
         ...state,
         gameStatus: 'LOST',
+        playedTrackIds: [],
       };
     case 'NEXT_TRACK':
       return {
@@ -101,6 +107,7 @@ export function GameProvider({ children, tracks }: { children: ReactNode; tracks
     attempts: [],
     isPlaying: false,
     currentTime: 0,
+    playedTrackIds: [],
   });
 
   const updateStats = (updater: (prev: PlayerStats) => PlayerStats) => {
@@ -123,6 +130,7 @@ export function GameProvider({ children, tracks }: { children: ReactNode; tracks
         totalCorrect: prev.totalCorrect + 1,
         totalPlayed: prev.totalPlayed + 1,
         maxStreak: Math.max(prev.maxStreak, prev.currentStreak + 1),
+        lightningCount: prev.lightningCount + (state.currentStep === 0 ? 1 : 0),
       }));
     }
 
@@ -139,8 +147,12 @@ export function GameProvider({ children, tracks }: { children: ReactNode; tracks
   };
 
   const nextTrack = () => {
-    const available = tracks.filter(t => t.id !== state.currentTrack?.id);
-    const pool = available.length > 0 ? available : tracks;
+    const available = tracks.filter(t =>
+      t.id !== state.currentTrack?.id && !state.playedTrackIds.includes(t.id)
+    );
+    const pool = available.length > 0
+      ? available
+      : tracks.filter(t => t.id !== state.currentTrack?.id);
     const track = pool[Math.floor(Math.random() * pool.length)];
     if (track) {
       dispatch({ type: 'NEXT_TRACK', track });

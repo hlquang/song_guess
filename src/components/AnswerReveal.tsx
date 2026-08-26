@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useGameContext } from '../context/GameContext';
 
 export default function AnswerReveal() {
@@ -15,6 +15,7 @@ export default function AnswerReveal() {
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
+  const [isDragging, setIsDragging] = useState(false);
 
   useEffect(() => {
     if (!currentTrack?.preview_url) return;
@@ -23,6 +24,7 @@ export default function AnswerReveal() {
     audioRef.current = audio;
 
     const handleTimeUpdate = () => {
+      if (dragRef.current) return;
       setCurrentTime(audio.currentTime);
     };
     const handleLoadedMetadata = () => {
@@ -79,7 +81,80 @@ export default function AnswerReveal() {
     }
   };
 
-  const handleBarClick = (e: React.MouseEvent<HTMLDivElement>) => {
+  const barRef = useRef<HTMLDivElement>(null);
+  const dragRef = useRef(false);
+  const wasPlayingRef = useRef(false);
+  const hasDraggedRef = useRef(false);
+  const startXRef = useRef(0);
+  const durationRef = useRef(duration);
+  const currentTimeRef = useRef(currentTime);
+  const audioRefCurrent = useRef(audioRef.current);
+  const setIsPlayingRef = useRef(setIsPlaying);
+  const setCurrentTimeRef = useRef(setCurrentTime);
+
+  useEffect(() => { durationRef.current = duration; }, [duration]);
+  useEffect(() => { currentTimeRef.current = currentTime; }, [currentTime]);
+  useEffect(() => { audioRefCurrent.current = audioRef.current; }, [audioRef.current]);
+  useEffect(() => { setIsPlayingRef.current = setIsPlaying; }, [setIsPlaying]);
+  useEffect(() => { setCurrentTimeRef.current = setCurrentTime; }, [setCurrentTime]);
+
+  const handleBarMouseDown = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    const audio = audioRef.current;
+    if (!audio || !durationRef.current) return;
+
+    setIsDragging(true);
+    dragRef.current = true;
+    hasDraggedRef.current = false;
+    startXRef.current = e.clientX;
+    wasPlayingRef.current = isPlaying;
+
+    const handleMouseMove = (moveEvent: MouseEvent) => {
+      const bar = barRef.current;
+      if (!bar) return;
+      const rect = bar.getBoundingClientRect();
+      const fraction = Math.max(0, Math.min(1, (moveEvent.clientX - rect.left) / rect.width));
+      const targetTime = fraction * durationRef.current;
+
+      const dx = Math.abs(moveEvent.clientX - startXRef.current);
+      if (dx > 3) {
+        hasDraggedRef.current = true;
+        if (wasPlayingRef.current) {
+          audio.pause();
+          setIsPlayingRef.current(false);
+        }
+      }
+
+      if (hasDraggedRef.current) {
+        audio.currentTime = targetTime;
+        setCurrentTimeRef.current(targetTime);
+      }
+    };
+
+    const handleMouseUp = () => {
+      if (!dragRef.current) return;
+      dragRef.current = false;
+      setIsDragging(false);
+      document.removeEventListener('mousemove', handleMouseMove);
+      document.removeEventListener('mouseup', handleMouseUp);
+
+      if (hasDraggedRef.current && wasPlayingRef.current) {
+        const audio = audioRefCurrent.current;
+        if (audio) {
+          audio.play().then(() => setIsPlayingRef.current(true)).catch(() => setIsPlayingRef.current(false));
+        }
+      }
+    };
+
+    document.addEventListener('mousemove', handleMouseMove);
+    document.addEventListener('mouseup', handleMouseUp);
+  }, [isPlaying]);
+
+  const handleBarClick = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    if (hasDraggedRef.current) {
+      e.stopPropagation();
+      return;
+    }
     const audio = audioRef.current;
     if (!audio || !duration) return;
     const rect = e.currentTarget.getBoundingClientRect();
@@ -87,7 +162,56 @@ export default function AnswerReveal() {
     const targetTime = fraction * duration;
     audio.currentTime = targetTime;
     setCurrentTime(targetTime);
-  };
+  }, [duration]);
+
+  const handleTouchStart = useCallback((e: React.TouchEvent<HTMLDivElement>) => {
+    const touch = e.touches[0];
+    const audio = audioRef.current;
+    if (!audio || !duration) return;
+
+    setIsDragging(true);
+    dragRef.current = true;
+    hasDraggedRef.current = false;
+    startXRef.current = touch.clientX;
+    wasPlayingRef.current = isPlaying;
+  }, [isPlaying, duration]);
+
+  const handleTouchMove = useCallback((e: React.TouchEvent<HTMLDivElement>) => {
+    if (!dragRef.current) return;
+    const touch = e.touches[0];
+    const bar = barRef.current;
+    if (!bar) return;
+    const rect = bar.getBoundingClientRect();
+    const fraction = Math.max(0, Math.min(1, (touch.clientX - rect.left) / rect.width));
+    const targetTime = fraction * durationRef.current;
+
+    const dx = Math.abs(touch.clientX - startXRef.current);
+    if (dx > 3) {
+      hasDraggedRef.current = true;
+      if (wasPlayingRef.current) {
+        audioRef.current?.pause();
+        setIsPlayingRef.current(false);
+      }
+    }
+
+    if (hasDraggedRef.current) {
+      audioRef.current!.currentTime = targetTime;
+      setCurrentTimeRef.current(targetTime);
+    }
+  }, []);
+
+  const handleTouchEnd = useCallback(() => {
+    if (!dragRef.current) return;
+    dragRef.current = false;
+    setIsDragging(false);
+
+    if (hasDraggedRef.current && wasPlayingRef.current) {
+      const audio = audioRef.current;
+      if (audio) {
+        audio.play().then(() => setIsPlayingRef.current(true)).catch(() => setIsPlayingRef.current(false));
+      }
+    }
+  }, []);
 
   const handleNext = () => {
     if (audioRef.current) {
@@ -147,8 +271,14 @@ export default function AnswerReveal() {
               )}
             </button>
             <div
-              className="flex-1 h-2 bg-pink-100 rounded-full overflow-hidden"
-              onClick={hasPreview ? handleBarClick : undefined}
+              ref={barRef}
+              className={`flex-1 h-2 bg-pink-100 rounded-full overflow-hidden ${isDragging ? 'cursor-grabbing' : 'cursor-pointer'}`}
+              style={{ userSelect: isDragging ? 'none' : undefined }}
+              onMouseDown={handleBarMouseDown}
+              onClick={handleBarClick}
+              onTouchStart={handleTouchStart}
+              onTouchMove={handleTouchMove}
+              onTouchEnd={handleTouchEnd}
               role={hasPreview ? 'slider' : undefined}
               aria-label="Audio progress"
               aria-valuemin={0}
@@ -157,7 +287,7 @@ export default function AnswerReveal() {
               tabIndex={hasPreview ? 0 : undefined}
             >
               <div
-                className="h-full bg-pink-500 rounded-full transition-all"
+                className={`h-full bg-pink-500 rounded-full ${isDragging ? 'transition-none' : 'transition-all'}`}
                 style={{ width: `${progress * 100}%` }}
               />
             </div>
