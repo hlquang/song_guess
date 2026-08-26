@@ -99,7 +99,16 @@ function gameReducer(state: GameState, action: GameAction): GameState {
 
 export function GameProvider({ children, tracks }: { children: ReactNode; tracks: SpotifyTrack[] }) {
   const [stats, setStats] = useLocalStorage<PlayerStats>('song_guess_stats', DEFAULT_STATS);
-  const normalizedStats = useMemo(() => ({ ...DEFAULT_STATS, ...stats }), [stats]);
+
+  const sanitizeStats = (s: Partial<PlayerStats>): PlayerStats => ({
+    currentStreak: typeof s.currentStreak === 'number' && !isNaN(s.currentStreak) ? s.currentStreak : DEFAULT_STATS.currentStreak,
+    maxStreak: typeof s.maxStreak === 'number' && !isNaN(s.maxStreak) ? s.maxStreak : DEFAULT_STATS.maxStreak,
+    totalPlayed: typeof s.totalPlayed === 'number' && !isNaN(s.totalPlayed) ? s.totalPlayed : DEFAULT_STATS.totalPlayed,
+    totalCorrect: typeof s.totalCorrect === 'number' && !isNaN(s.totalCorrect) ? s.totalCorrect : DEFAULT_STATS.totalCorrect,
+    lightningCount: typeof s.lightningCount === 'number' && !isNaN(s.lightningCount) ? s.lightningCount : DEFAULT_STATS.lightningCount,
+  });
+
+  const normalizedStats = useMemo(() => sanitizeStats(stats), [stats]);
 
   const [state, dispatch] = useReducer(gameReducer, {
     currentTrack: null,
@@ -112,7 +121,7 @@ export function GameProvider({ children, tracks }: { children: ReactNode; tracks
   });
 
   const updateStats = (updater: (prev: PlayerStats) => PlayerStats) => {
-    setStats(prev => updater({ ...DEFAULT_STATS, ...prev }));
+    setStats(prev => updater(sanitizeStats(prev)));
   };
 
   const startNewGame = (track: SpotifyTrack) => {
