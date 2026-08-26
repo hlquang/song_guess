@@ -4320,15 +4320,6 @@
     "duration_ms": 278823
   },
   {
-    "id": "3xS9cM8ZC71daRAjCGPVTJ",
-    "name": "nàng thơ... trời giấu trời mang đi",
-    "primary_artist": "AMEE",
-    "preview_url": "https://p.scdn.co/mp3-preview/7610fd6cff65b5917fe75f40e8409014ba63fc93",
-    "album_art": "https://i.scdn.co/image/ab67616d0000b273eb25b6cc345b4c2d86dc6bf7",
-    "spotify_url": "https://open.spotify.com/track/3xS9cM8ZC71daRAjCGPVTJ",
-    "duration_ms": 262150
-  },
-  {
     "id": "64UWFwTIsfoHZolWAjKGgw",
     "name": "Dù Cho Mai Về Sau (Acoustic Version)",
     "primary_artist": "buitruonglinh",
@@ -4860,15 +4851,6 @@
     "duration_ms": 190285
   },
   {
-    "id": "0Rx4GFPy8ISxPhRwkjl64b",
-    "name": "ex's hate me, Pt. 2",
-    "primary_artist": "AMEE",
-    "preview_url": "https://p.scdn.co/mp3-preview/3b9691b9beaa9d024922121e9a88da8aa18269bc",
-    "album_art": "https://i.scdn.co/image/ab67616d0000b2733301902c58a4df0472a19c7e",
-    "spotify_url": "https://open.spotify.com/track/0Rx4GFPy8ISxPhRwkjl64b",
-    "duration_ms": 216500
-  },
-  {
     "id": "6m11BPYL45iM3rLXpZCYch",
     "name": "Biết Em Lại Vô Tình",
     "primary_artist": "Thiên Khôi",
@@ -5346,15 +5328,6 @@
     "duration_ms": 177626
   },
   {
-    "id": "5bci9SuYMCNB2BkSEmrCaB",
-    "name": "Trời Giấu Trời Mang Đi",
-    "primary_artist": "AMEE",
-    "preview_url": "https://p.scdn.co/mp3-preview/64a3ebeb3f52b4f9e7fc2e45bee42b7530370dae",
-    "album_art": "https://i.scdn.co/image/ab67616d0000b273f49799ca9da9a7b7caabc7fe",
-    "spotify_url": "https://open.spotify.com/track/5bci9SuYMCNB2BkSEmrCaB",
-    "duration_ms": 258260
-  },
-  {
     "id": "64ZhcJmxAY9Slf9D0FbmNL",
     "name": "Ôm Trọn Nỗi Nhớ",
     "primary_artist": "Rum",
@@ -5436,15 +5409,6 @@
     "duration_ms": 216471
   },
   {
-    "id": "3oIOIElcMs0kzonoDHzEx6",
-    "name": "Thac Mac?",
-    "primary_artist": "Thịnh Suy",
-    "preview_url": "https://p.scdn.co/mp3-preview/a092fdcd7aedb057a635774649e9c3b76d3ae8b1",
-    "album_art": "https://i.scdn.co/image/ab67616d0000b273bad1c75030395f8b01c6c930",
-    "spotify_url": "https://open.spotify.com/track/3oIOIElcMs0kzonoDHzEx6",
-    "duration_ms": 205567
-  },
-  {
     "id": "2avWAO0UACNLU4kYJYKU5M",
     "name": "Đau Để Trưởng Thành",
     "primary_artist": "Only C",
@@ -5470,15 +5434,6 @@
     "album_art": "https://i.scdn.co/image/ab67616d0000b273851646f69bd8b1839644b2b7",
     "spotify_url": "https://open.spotify.com/track/58ll2hFYb7bcdEN6YHbODP",
     "duration_ms": 249333
-  },
-  {
-    "id": "6HaChQZma1WN7Wx6ImCS7N",
-    "name": "Anh Oi O Lai",
-    "primary_artist": "Chi Pu",
-    "preview_url": "https://p.scdn.co/mp3-preview/9f41a47caa14d7e39b3630e779f9a0c87f773dc5",
-    "album_art": "https://i.scdn.co/image/ab67616d0000b2733396e5dff54136ccda36b8ee",
-    "spotify_url": "https://open.spotify.com/track/6HaChQZma1WN7Wx6ImCS7N",
-    "duration_ms": 292379
   },
   {
     "id": "3VMiWCp61FygYAaPM8WkfL",
@@ -5769,15 +5724,6 @@
     "duration_ms": 269676
   },
   {
-    "id": "6UgaKUJSO0Xp47x6pL1LaA",
-    "name": "Em Khong The",
-    "primary_artist": "Tiên Tiên",
-    "preview_url": "https://p.scdn.co/mp3-preview/1601a01bdfd2ccd44d75b156cec7095081bfb820",
-    "album_art": "https://i.scdn.co/image/ab67616d0000b273f93d9a9e60eb1fcdb82ea00d",
-    "spotify_url": "https://open.spotify.com/track/6UgaKUJSO0Xp47x6pL1LaA",
-    "duration_ms": 250773
-  },
-  {
     "id": "3g7lBqTaP0DM4VWyAJFPw3",
     "name": "Em Ngu Chua - Original",
     "primary_artist": "Trinh Thang Binh, OSAD",
@@ -6023,7 +5969,7 @@
   {
     "id": "61y0JRs3A97Sxad8eEQrUo",
     "name": "Nhe - Nham Mat Thay Mua He OST - Original",
-    "primary_artist": "Uyen Pim, B?t Band",
+    "primary_artist": "Uyen Pim, Bet Band",
     "preview_url": "https://p.scdn.co/mp3-preview/64515ab3df2fdfd3ef2e3ece3322b4dcf7924cfb",
     "album_art": "https://i.scdn.co/image/ab67616d0000b273d701ccae86e2205c06940660",
     "spotify_url": "https://open.spotify.com/track/61y0JRs3A97Sxad8eEQrUo",
@@ -6208,15 +6154,6 @@
     "album_art": "https://i.scdn.co/image/ab67616d0000b273af31997b23b7e6e65de1816b",
     "spotify_url": "https://open.spotify.com/track/2HJTiK8apJmdBUcHsfp1mR",
     "duration_ms": 188081
-  },
-  {
-    "id": "6IoP0NymzXMzaHqEgJMi09",
-    "name": "Cho Nhau Nhe",
-    "primary_artist": "SUNI",
-    "preview_url": "https://p.scdn.co/mp3-preview/c85b8157fc1284d87370039d7ac8486f8b7c8ba9",
-    "album_art": "https://i.scdn.co/image/ab67616d0000b273b135d958914c10400bb458de",
-    "spotify_url": "https://open.spotify.com/track/6IoP0NymzXMzaHqEgJMi09",
-    "duration_ms": 218950
   },
   {
     "id": "6hUpxEKFSjS8metuA1yxlf",
@@ -6957,15 +6894,6 @@
     "duration_ms": 262978
   },
   {
-    "id": "1XgweHdqnVPxc4PYSYkbd0",
-    "name": "Sau Trong Em",
-    "primary_artist": "Bích Phương",
-    "preview_url": "https://p.scdn.co/mp3-preview/2a4e1eb9a652b72eab1ae5cb7eac3c506c15acc9",
-    "album_art": "https://i.scdn.co/image/ab67616d0000b273c90a23bd22ba2c598adaf615",
-    "spotify_url": "https://open.spotify.com/track/1XgweHdqnVPxc4PYSYkbd0",
-    "duration_ms": 237636
-  },
-  {
     "id": "5ccdGTzOHdkDUJMDFhyCjP",
     "name": "Hôm Nay Tôi Buồn",
     "primary_artist": "Phùng Khánh Linh",
@@ -7354,7 +7282,7 @@
   },
   {
     "id": "7DdpDVel6oLxkl1fweGunE",
-    "name": "đ?p Nh?t La Em - Vietnamese Version",
+    "name": "Dep Nhat La Em - Vietnamese Version",
     "primary_artist": "Ji Yeon",
     "preview_url": "https://p.scdn.co/mp3-preview/7bff5a51a8cac72a2baf7374e1a2cf4960e5b1b5",
     "album_art": "https://i.scdn.co/image/ab67616d0000b27319c856a6b848041d0f50c903",
@@ -7369,15 +7297,6 @@
     "album_art": "https://i.scdn.co/image/ab67616d0000b2732e416db477a8800ec858ee20",
     "spotify_url": "https://open.spotify.com/track/3xVDR2MudkcOjkb9gj4FT8",
     "duration_ms": 235000
-  },
-  {
-    "id": "5tSXUXANUZzFDkDCQNMe5D",
-    "name": "Anh Sai Rồi",
-    "primary_artist": "Sơn Tùng M-TP",
-    "preview_url": "https://p.scdn.co/mp3-preview/59f73f34aff2608551fcf98e8316d487e9669e88",
-    "album_art": "https://i.scdn.co/image/ab67616d0000b273af31997b23b7e6e65de1816b",
-    "spotify_url": "https://open.spotify.com/track/5tSXUXANUZzFDkDCQNMe5D",
-    "duration_ms": 252303
   },
   {
     "id": "0xJqADstTWg0taKXInHfIN",
@@ -9673,15 +9592,6 @@
     "album_art": "https://i.scdn.co/image/ab67616d0000b273a09fb80b07fb17f8ab7b844a",
     "spotify_url": "https://open.spotify.com/track/2uxjHthUJd2A8PmWaUGGsI",
     "duration_ms": 322508
-  },
-  {
-    "id": "1w3eUC89GPspKpi62tPwjt",
-    "name": "Nàng Thơ",
-    "primary_artist": "Hoàng Dũng",
-    "preview_url": "https://p.scdn.co/mp3-preview/1098bf15edcbdd87ade62d07b00d8c6d77e31704",
-    "album_art": "https://i.scdn.co/image/ab67616d0000b2735a6bc1ecf16bbac5734f23da",
-    "spotify_url": "https://open.spotify.com/track/1w3eUC89GPspKpi62tPwjt",
-    "duration_ms": 254476
   },
   {
     "id": "6vjzLoNJr2SX30jD9Hh0Dm",
@@ -13716,15 +13626,6 @@
     "duration_ms": 242222
   },
   {
-    "id": "6KDWVehyK8Top1mJRjgXqv",
-    "name": "Có Em Đời Bỗng Vui",
-    "primary_artist": "Chillies",
-    "preview_url": "https://p.scdn.co/mp3-preview/acb0a20515a54a31e7e54956b813901ad3805e9e",
-    "album_art": "https://i.scdn.co/image/ab67616d0000b273b94a56e1c75beb241354a96b",
-    "spotify_url": "https://open.spotify.com/track/6KDWVehyK8Top1mJRjgXqv",
-    "duration_ms": 247428
-  },
-  {
     "id": "5tuggdTrO21Wi9ydcyUXlX",
     "name": "Qua Khung Cửa Sổ",
     "primary_artist": "Chillies",
@@ -13759,15 +13660,6 @@
     "album_art": "https://i.scdn.co/image/ab67616d0000b273102e4debf9ed80b14510a959",
     "spotify_url": "https://open.spotify.com/track/1Qu8DkWAMnAOOZ1b3FfOBb",
     "duration_ms": 271836
-  },
-  {
-    "id": "0zGOn9WCE4UOUM5Ngeu4kx",
-    "name": "Giá Như",
-    "primary_artist": "Chillies",
-    "preview_url": "https://p.scdn.co/mp3-preview/3cf6eb0ff9964469cfe4cbf3b500f804639c42e5",
-    "album_art": "https://i.scdn.co/image/ab67616d0000b273e8a6054b92e9c63bbf5ff205",
-    "spotify_url": "https://open.spotify.com/track/0zGOn9WCE4UOUM5Ngeu4kx",
-    "duration_ms": 297000
   },
   {
     "id": "0vJQKHoVMlLHtAVrsE9SAG",
@@ -14002,15 +13894,6 @@
     "album_art": "https://i.scdn.co/image/ab67616d0000b2732a340471b37ab9189c2112ed",
     "spotify_url": "https://open.spotify.com/track/0vPJkTSNcxLTMGyudCxIXg",
     "duration_ms": 191346
-  },
-  {
-    "id": "5NEmJ7sfYHplZwkXfwsJdt",
-    "name": "Có Không Giữ Mất Đừng Tìm",
-    "primary_artist": "Trúc Nhân",
-    "preview_url": "https://p.scdn.co/mp3-preview/4107bb8a23352d07b863d320611d7759fda175e9",
-    "album_art": "https://i.scdn.co/image/ab67616d0000b273c269265ffc1f3462e7f14dc7",
-    "spotify_url": "https://open.spotify.com/track/5NEmJ7sfYHplZwkXfwsJdt",
-    "duration_ms": 215908
   },
   {
     "id": "0ksNGOPXygtkQnAMJoStHM",
@@ -16398,15 +16281,6 @@
     "duration_ms": 260806
   },
   {
-    "id": "7K11gQ2ZC1fFJQBWjmeLrr",
-    "name": "Còn lại gi sau cơn mưa",
-    "primary_artist": "Hồ Quang Hiếu",
-    "preview_url": "https://p.scdn.co/mp3-preview/98a1848b71ef18e4b2fdef7d56424beacdf07a65",
-    "album_art": "https://i.scdn.co/image/ab67616d0000b27331a75a54c27bc101f32e8675",
-    "spotify_url": "https://open.spotify.com/track/7K11gQ2ZC1fFJQBWjmeLrr",
-    "duration_ms": 268408
-  },
-  {
     "id": "5BwBYqZsLqqP2C0YtrfyT9",
     "name": "Bạn lòng",
     "primary_artist": "Hồ Quang Hiếu",
@@ -17244,15 +17118,6 @@
     "duration_ms": 186548
   },
   {
-    "id": "4YMM05vannAm37Mp1dHK1V",
-    "name": "Chìm Sâu",
-    "primary_artist": "RPT MCK",
-    "preview_url": "https://p.scdn.co/mp3-preview/b2accd12e2c037503f86fb5331450bdbc948300c",
-    "album_art": "https://i.scdn.co/image/ab67616d0000b273d80191bebd0e8506c3533cd5",
-    "spotify_url": "https://open.spotify.com/track/4YMM05vannAm37Mp1dHK1V",
-    "duration_ms": 156303
-  },
-  {
     "id": "5ebpXrA4HRSoGd88qIs4M0",
     "name": "Chỉ Một Đêm Nữa Thôi",
     "primary_artist": "RPT MCK",
@@ -17928,15 +17793,6 @@
     "duration_ms": 309220
   },
   {
-    "id": "6su7ekPw5AAIU2OUCvos6S",
-    "name": "Ex's Hate Me",
-    "primary_artist": "B Ray",
-    "preview_url": "https://p.scdn.co/mp3-preview/79d83a28053f3f53af470415bfb9f92f99ea6daf",
-    "album_art": "https://i.scdn.co/image/ab67616d0000b27325b293d1ca066c650a0f9c69",
-    "spotify_url": "https://open.spotify.com/track/6su7ekPw5AAIU2OUCvos6S",
-    "duration_ms": 258023
-  },
-  {
     "id": "7dlgEjrK3lHbP786dshKDV",
     "name": "CHỜ ANH VỀ",
     "primary_artist": "ANH TRAI \"SAY HI\"",
@@ -17953,15 +17809,6 @@
     "album_art": "https://i.scdn.co/image/ab67616d0000b273819219f4ea0ad1e11cb78411",
     "spotify_url": "https://open.spotify.com/track/5tdz7T4hTxA1ipJMBe24uX",
     "duration_ms": 216500
-  },
-  {
-    "id": "2SykQzXuFSeprST1uDjj1m",
-    "name": "trời giấu trời mang đi",
-    "primary_artist": "AMEE",
-    "preview_url": "https://p.scdn.co/mp3-preview/64a3ebeb3f52b4f9e7fc2e45bee42b7530370dae",
-    "album_art": "https://i.scdn.co/image/ab67616d0000b273819219f4ea0ad1e11cb78411",
-    "spotify_url": "https://open.spotify.com/track/2SykQzXuFSeprST1uDjj1m",
-    "duration_ms": 253500
   },
   {
     "id": "62DYhqOl7uCL8WZn0aG2Tt",
@@ -18151,15 +17998,6 @@
     "album_art": "https://i.scdn.co/image/ab67616d0000b2739388fad74475caeb8811868b",
     "spotify_url": "https://open.spotify.com/track/3YrpTccMIARwc5yYXx6kQp",
     "duration_ms": 170688
-  },
-  {
-    "id": "1ez2ybZEC30wLfGchpZIA8",
-    "name": "anh nhà ở đâu thế",
-    "primary_artist": "AMEE",
-    "preview_url": "https://p.scdn.co/mp3-preview/026b55fc4d92b157fc5fad04202cf420720ca2dc",
-    "album_art": "https://i.scdn.co/image/ab67616d0000b273819219f4ea0ad1e11cb78411",
-    "spotify_url": "https://open.spotify.com/track/1ez2ybZEC30wLfGchpZIA8",
-    "duration_ms": 216000
   },
   {
     "id": "0xxdgfFoX59GUQufWCD3Uz",
@@ -21195,15 +21033,6 @@
     "duration_ms": 244539
   },
   {
-    "id": "7boFpsgxlNbaPMWN7r5iq7",
-    "name": "Chúng Ta Của Hiện Tại",
-    "primary_artist": "Sơn Tùng M-TP",
-    "preview_url": "https://p.scdn.co/mp3-preview/baa8ac668790025905ba1040aeda7ed963dd2b45",
-    "album_art": "https://i.scdn.co/image/ab67616d0000b273340c4556fa0c36f410dd07de",
-    "spotify_url": "https://open.spotify.com/track/7boFpsgxlNbaPMWN7r5iq7",
-    "duration_ms": 301609
-  },
-  {
     "id": "2g9jxHI2KqSS1MRwS7e95x",
     "name": "Chắc Ai Đó Sẽ Về",
     "primary_artist": "Sơn Tùng M-TP",
@@ -21319,15 +21148,6 @@
     "album_art": "https://i.scdn.co/image/ab67616d0000b2737663e8afc902209090664782",
     "spotify_url": "https://open.spotify.com/track/3cuFzsortMGytfYQ71PpUg",
     "duration_ms": 149077
-  },
-  {
-    "id": "1wWTizhNHBG2mE66VB9Gjz",
-    "name": "Nơi Này Có Anh",
-    "primary_artist": "Sơn Tùng M-TP",
-    "preview_url": "https://p.scdn.co/mp3-preview/fa6101b304fc105369d3be098ddc15810f294ae7",
-    "album_art": "https://i.scdn.co/image/ab67616d0000b2735a85b345cb9461f3aa400dc1",
-    "spotify_url": "https://open.spotify.com/track/1wWTizhNHBG2mE66VB9Gjz",
-    "duration_ms": 260117
   },
   {
     "id": "6UdpjBhLNMFl3dH46iXlGi",
@@ -21978,15 +21798,6 @@
     "duration_ms": 193000
   },
   {
-    "id": "3P3rcI48wwVEgxF5vPM6pG",
-    "name": "Buông Đôi Tay Nhau Ra",
-    "primary_artist": "Sơn Tùng M-TP",
-    "preview_url": "https://p.scdn.co/mp3-preview/f2acc88cbc7a001fb3184809b6fffcbc71f9b068",
-    "album_art": "https://i.scdn.co/image/ab67616d0000b273794744c57c9f35db88249842",
-    "spotify_url": "https://open.spotify.com/track/3P3rcI48wwVEgxF5vPM6pG",
-    "duration_ms": 227492
-  },
-  {
     "id": "5KXRShxe6Y54ueBSnq3ck7",
     "name": "Biên Giới Long Bình",
     "primary_artist": "Obito",
@@ -22320,15 +22131,6 @@
     "duration_ms": 249509
   },
   {
-    "id": "7jLSThU5Kg1RWt19Leiaxm",
-    "name": "Chìm Sâu",
-    "primary_artist": "RPT MCK",
-    "preview_url": "https://p.scdn.co/mp3-preview/b2accd12e2c037503f86fb5331450bdbc948300c",
-    "album_art": "https://i.scdn.co/image/ab67616d0000b273b315e8bb7ef5e57e9a25bb0f",
-    "spotify_url": "https://open.spotify.com/track/7jLSThU5Kg1RWt19Leiaxm",
-    "duration_ms": 156303
-  },
-  {
     "id": "2Uf4IUlGNFrCitvHKGJ6rW",
     "name": "Chiều Hôm Ấy",
     "primary_artist": "JayKii",
@@ -22428,15 +22230,6 @@
     "duration_ms": 219732
   },
   {
-    "id": "1J3SmWwlYAG68LGKr86MVH",
-    "name": "Chúng Ta Của Hiện Tại",
-    "primary_artist": "Sơn Tùng M-TP",
-    "preview_url": "https://p.scdn.co/mp3-preview/baa8ac668790025905ba1040aeda7ed963dd2b45",
-    "album_art": "https://i.scdn.co/image/ab67616d0000b2732cd9649ea111a552283f0165",
-    "spotify_url": "https://open.spotify.com/track/1J3SmWwlYAG68LGKr86MVH",
-    "duration_ms": 301538
-  },
-  {
     "id": "5IO873C4IP8pXdsXcJiBes",
     "name": "Chúng Ta Sau Này",
     "primary_artist": "T.R.I",
@@ -22489,15 +22282,6 @@
     "album_art": "https://i.scdn.co/image/ab67616d0000b27301a5b7c9cf729daa1a413131",
     "spotify_url": "https://open.spotify.com/track/337MAhY4kRDWnXd7mgoV5J",
     "duration_ms": 148421
-  },
-  {
-    "id": "0yCWGVeHcbaP3yiicXvgK3",
-    "name": "Có Em Đời Bỗng Vui",
-    "primary_artist": "Chillies",
-    "preview_url": "https://p.scdn.co/mp3-preview/acb0a20515a54a31e7e54956b813901ad3805e9e",
-    "album_art": "https://i.scdn.co/image/ab67616d0000b2730d20beaec3607e4d3cdbdb3b",
-    "spotify_url": "https://open.spotify.com/track/0yCWGVeHcbaP3yiicXvgK3",
-    "duration_ms": 247530
   },
   {
     "id": "0ReId5SRMspb6ISw0rBsBN",
@@ -22876,15 +22660,6 @@
     "album_art": "https://i.scdn.co/image/ab67616d0000b27320e8e67aab2c9321058c262a",
     "spotify_url": "https://open.spotify.com/track/6NX2B1nLrulC8XogMQzVaI",
     "duration_ms": 225830
-  },
-  {
-    "id": "0lFj8bk12W4JBz09s0DgfS",
-    "name": "Em à",
-    "primary_artist": "buitruonglinh",
-    "preview_url": "https://p.scdn.co/mp3-preview/4e29e8e8cf36c573ae417e28fea8ff42f7689881",
-    "album_art": "https://i.scdn.co/image/ab67616d0000b2730e1bb017d82adad7b0587565",
-    "spotify_url": "https://open.spotify.com/track/0lFj8bk12W4JBz09s0DgfS",
-    "duration_ms": 158000
   },
   {
     "id": "4warbIYK76jjJOe87170eZ",
@@ -23850,15 +23625,6 @@
     "duration_ms": 231272
   },
   {
-    "id": "4vfhartd7HDWGJbdVIycEu",
-    "name": "Muộn Rồi Mà Sao Còn",
-    "primary_artist": "Sơn Tùng M-TP",
-    "preview_url": "https://p.scdn.co/mp3-preview/8d28d0b77fa3dc9a8e7014b71c5c5c02f48a1f8d",
-    "album_art": "https://i.scdn.co/image/ab67616d0000b2730121ea113166222d5c743e2e",
-    "spotify_url": "https://open.spotify.com/track/4vfhartd7HDWGJbdVIycEu",
-    "duration_ms": 275905
-  },
-  {
     "id": "4Wc98oLOg1IuVCGqIhTDVj",
     "name": "Mình Là Gì Của Nhau",
     "primary_artist": "Lou Hoàng",
@@ -24163,15 +23929,6 @@
     "album_art": "https://i.scdn.co/image/ab67616d0000b273a96081d059b7c543642d3e8b",
     "spotify_url": "https://open.spotify.com/track/5VPfJc2fOcECHLenvfLBFz",
     "duration_ms": 384585
-  },
-  {
-    "id": "5rSAUmbOg4giDrM29vUyHe",
-    "name": "Nơi Này Có Anh",
-    "primary_artist": "Sơn Tùng M-TP",
-    "preview_url": "https://p.scdn.co/mp3-preview/fa6101b304fc105369d3be098ddc15810f294ae7",
-    "album_art": "https://i.scdn.co/image/ab67616d0000b273794744c57c9f35db88249842",
-    "spotify_url": "https://open.spotify.com/track/5rSAUmbOg4giDrM29vUyHe",
-    "duration_ms": 260117
   },
   {
     "id": "5y3m3UvJRHDPCqO2SBq98f",
@@ -24523,15 +24280,6 @@
     "album_art": "https://i.scdn.co/image/ab67616d0000b273f7a3a4055cd1c8688ffc5293",
     "spotify_url": "https://open.spotify.com/track/45crbWIDUHs6AhtPh6L156",
     "duration_ms": 228823
-  },
-  {
-    "id": "1GJ3suxtUVaguVQRemw6Zp",
-    "name": "Suýt Nữa Thì...",
-    "primary_artist": "Andiez",
-    "preview_url": "https://p.scdn.co/mp3-preview/763404a2f6a0521afc01a368ff34b8e12501f3b0",
-    "album_art": "https://i.scdn.co/image/ab67616d0000b2730df1885673928b64e3902f09",
-    "spotify_url": "https://open.spotify.com/track/1GJ3suxtUVaguVQRemw6Zp",
-    "duration_ms": 281344
   },
   {
     "id": "3Rf4rNtuMuSQ9mr6hmhIIB",
