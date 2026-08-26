@@ -1,4 +1,4 @@
-import { createContext, useContext, useReducer, ReactNode } from 'react';
+import { createContext, useContext, useMemo, useReducer, ReactNode } from 'react';
 import { SpotifyTrack, GuessAttempt, GameStatus, PlayerStats, GameContextValue } from '../types';
 import { STEP_THRESHOLDS } from '../utils/audioTiming';
 import useLocalStorage from '../hooks/useLocalStorage';
@@ -99,6 +99,7 @@ function gameReducer(state: GameState, action: GameAction): GameState {
 
 export function GameProvider({ children, tracks }: { children: ReactNode; tracks: SpotifyTrack[] }) {
   const [stats, setStats] = useLocalStorage<PlayerStats>('song_guess_stats', DEFAULT_STATS);
+  const normalizedStats = useMemo(() => ({ ...DEFAULT_STATS, ...stats }), [stats]);
 
   const [state, dispatch] = useReducer(gameReducer, {
     currentTrack: null,
@@ -111,7 +112,7 @@ export function GameProvider({ children, tracks }: { children: ReactNode; tracks
   });
 
   const updateStats = (updater: (prev: PlayerStats) => PlayerStats) => {
-    setStats(updater);
+    setStats(prev => updater({ ...DEFAULT_STATS, ...prev }));
   };
 
   const startNewGame = (track: SpotifyTrack) => {
@@ -172,7 +173,7 @@ export function GameProvider({ children, tracks }: { children: ReactNode; tracks
     currentStep: state.currentStep,
     gameStatus: state.gameStatus,
     attempts: state.attempts,
-    stats,
+    stats: normalizedStats,
     isPlaying: state.isPlaying,
     currentTime: state.currentTime,
     startNewGame,

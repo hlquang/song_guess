@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { GameProvider, useGameContext } from './context/GameContext';
 import AudioPlayer from './components/AudioPlayer';
 import SearchBar from './components/SearchBar';
-import GuessDisplay from './components/GuessDisplay';
+
 import StreakCounter from './components/StreakCounter';
 import AnswerReveal from './components/AnswerReveal';
 import { SpotifyTrack } from './types';
@@ -44,7 +44,7 @@ function GameContent({ tracks }: { tracks: SpotifyTrack[] }) {
 
       <main className="flex-1 flex flex-col items-center justify-center gap-6 p-4">
         <AudioPlayer />
-        <GuessDisplay />
+
       </main>
 
       <footer className="px-4 py-4 border-t border-pink-200 bg-white/60">

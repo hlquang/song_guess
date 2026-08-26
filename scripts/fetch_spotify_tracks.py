@@ -4,42 +4,7 @@ import os
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
 PLAYLIST_IDS = [
-    "4xGIvoVNyLfQEBNUqVLbEr",
-    "37i9dQZF1DZ06evO0bPqak",
-    "37i9dQZF1DZ06evO1alPyx",
-    "37i9dQZF1DZ06evO41N3c4",
-    "37i9dQZF1DZ06evO0m8cMj",
-    "37i9dQZF1DZ06evO0Ughqg",
-    "37i9dQZF1DZ06evO3zHjpK",
-    "37i9dQZF1DZ06evO30q6pd",
-    "37i9dQZF1DZ06evO021r20",
-    "37i9dQZF1DZ06evO1MSkmI",
-    "37i9dQZF1DZ06evO41eX84",
-    "37i9dQZF1DZ06evO2bySAk",
-    "37i9dQZF1DZ06evO0tQoPo",
-    "37i9dQZF1DZ06evO01HDvO",
-    "37i9dQZF1DZ06evO2GkqR3",
-    "37i9dQZF1DZ06evO1siGu4",
-    "37i9dQZF1DZ06evO0ERJmw",
-    "37i9dQZF1DZ06evO0Z7QLU",
-    "37i9dQZF1DZ06evO28qX5o",
-    "37i9dQZF1DZ06evO4bK6Wt",
-    "37i9dQZF1DX7QVY9I8NGmC",
-    "37i9dQZF1DZ06evO0nLIDl",
-    "37i9dQZF1DZ06evO23msrp",
-    "37i9dQZF1DZ06evO1WR3HS",
-    "37i9dQZF1DZ06evO0SpNM6",
-    "37i9dQZF1DZ06evO35aYHO",
-    "5dfZ5uSmzR7VQK0udbAVpf",
-    "37i9dQZF1DZ06evO1eEQ2T",
-    "5OvCh1Nin8AGw7OkxYinBe",
-    "37i9dQZF1DZ06evO4vLVOd",
-    "37i9dQZF1DZ06evO3oXR3H",
-    "37i9dQZF1DZ06evO3FbsUG",
-    "37i9dQZF1DZ06evO0LeSDU",
-    "37i9dQZF1DZ06evO2u9kyu",
-    "37i9dQZF1DZ06evO3JjtrI",
-    "37i9dQZF1DZ06evO0LEsbU",
+    "3dNDkUc9lkOT5qVqTPuzCw",
 ]
 
 TRACKS_OUTPUT_PATH = os.path.join(
@@ -84,6 +49,15 @@ def main():
     client = SpotifyClient()
 
     seen = {}
+    if os.path.exists(TRACKS_OUTPUT_PATH):
+        try:
+            with open(TRACKS_OUTPUT_PATH, "r", encoding="utf-8") as fh:
+                for t in json.load(fh):
+                    seen[t["id"]] = t
+            print(f"Loaded {len(seen)} existing tracks")
+        except Exception as exc:
+            print(f"Warning: failed to load existing tracks: {exc}")
+
     total_playlists = len(PLAYLIST_IDS)
 
     for p, playlist_id in enumerate(PLAYLIST_IDS, start=1):
