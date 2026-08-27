@@ -37,6 +37,7 @@ export interface GameContextValue {
   stats: PlayerStats;
   isPlaying: boolean;
   currentTime: number;
+  volume: number;
   startNewGame: (track: SpotifyTrack) => void;
   submitGuess: (trackId: string) => boolean;
   giveUp: () => void;
@@ -45,4 +46,12 @@ export interface GameContextValue {
   play: () => void;
   pause: () => void;
   setCurrentTime: (time: number) => void;
+  setVolume: (volume: number) => void;
+  restoreGame: (state: {
+    currentTrack: SpotifyTrack;
+    currentStep: number;
+    gameStatus: GameStatus;
+    attempts: GuessAttempt[];
+    playedTrackIds: string[];
+  }) => void;
 }

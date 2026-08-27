@@ -1,4 +1,4 @@
-import { createContext, useContext, useMemo, useReducer, ReactNode } from 'react';
+import { createContext, useContext, useEffect, useMemo, useReducer, ReactNode } from 'react';
 import { SpotifyTrack, GuessAttempt, GameStatus, PlayerStats, GameContextValue } from '../types';
 import { STEP_THRESHOLDS } from '../utils/audioTiming';
 import useLocalStorage from '../hooks/useLocalStorage';
@@ -19,6 +19,7 @@ interface GameState {
   isPlaying: boolean;
   currentTime: number;
   playedTrackIds: string[];
+  volume: number;
 }
 
 type GameAction =
@@ -26,6 +27,14 @@ type GameAction =
   | { type: 'SUBMIT_GUESS'; trackId: string }
   | { type: 'GIVE_UP' }
   | { type: 'NEXT_TRACK'; track: SpotifyTrack }
+  | { type: 'RESTORE_GAME'; state: {
+      currentTrack: SpotifyTrack;
+      currentStep: number;
+      gameStatus: GameStatus;
+      attempts: GuessAttempt[];
+      playedTrackIds: string[];
+    }}
+  | { type: 'SET_VOLUME'; volume: number }
   | { type: 'ADVANCE_STEP' }
   | { type: 'SET_PLAYING'; isPlaying: boolean }
   | { type: 'SET_CURRENT_TIME'; currentTime: number };
@@ -77,6 +86,22 @@ function gameReducer(state: GameState, action: GameAction): GameState {
         isPlaying: false,
         currentTime: 0,
       };
+    case 'RESTORE_GAME':
+      return {
+        ...state,
+        currentTrack: action.state.currentTrack,
+        currentStep: action.state.currentStep,
+        gameStatus: action.state.gameStatus,
+        attempts: action.state.attempts,
+        playedTrackIds: action.state.playedTrackIds,
+        isPlaying: false,
+        currentTime: 0,
+      };
+    case 'SET_VOLUME':
+      return {
+        ...state,
+        volume: action.volume,
+      };
     case 'ADVANCE_STEP':
       return {
         ...state,
@@ -118,6 +143,16 @@ export function GameProvider({ children, tracks }: { children: ReactNode; tracks
     isPlaying: false,
     currentTime: 0,
     playedTrackIds: [],
+    volume: (() => {
+      try {
+        const saved = localStorage.getItem('song_guess_volume');
+        if (saved !== null) {
+          const parsed = parseFloat(saved);
+          if (!isNaN(parsed) && parsed >= 0 && parsed <= 1) return parsed;
+        }
+      } catch {}
+      return 0.5;
+    })(),
   });
 
   const updateStats = (updater: (prev: PlayerStats) => PlayerStats) => {
@@ -126,6 +161,16 @@ export function GameProvider({ children, tracks }: { children: ReactNode; tracks
 
   const startNewGame = (track: SpotifyTrack) => {
     dispatch({ type: 'START_GAME', track });
+  };
+
+  const restoreGame = (gameState: {
+    currentTrack: SpotifyTrack;
+    currentStep: number;
+    gameStatus: GameStatus;
+    attempts: GuessAttempt[];
+    playedTrackIds: string[];
+  }) => {
+    dispatch({ type: 'RESTORE_GAME', state: gameState });
   };
 
   const submitGuess = (trackId: string): boolean => {
@@ -177,6 +222,14 @@ export function GameProvider({ children, tracks }: { children: ReactNode; tracks
   const pause = () => dispatch({ type: 'SET_PLAYING', isPlaying: false });
   const setCurrentTime = (time: number) => dispatch({ type: 'SET_CURRENT_TIME', currentTime: time });
 
+  const setVolume = (volume: number) => {
+    const clamped = Math.max(0, Math.min(1, volume));
+    dispatch({ type: 'SET_VOLUME', volume: clamped });
+    try {
+      localStorage.setItem('song_guess_volume', String(clamped));
+    } catch {}
+  };
+
   const value: GameContextValue = {
     currentTrack: state.currentTrack,
     currentStep: state.currentStep,
@@ -185,15 +238,34 @@ export function GameProvider({ children, tracks }: { children: ReactNode; tracks
     stats: normalizedStats,
     isPlaying: state.isPlaying,
     currentTime: state.currentTime,
+    volume: state.volume,
     startNewGame,
     submitGuess,
     giveUp,
     nextTrack,
+    restoreGame,
     advanceStep,
     play,
     pause,
     setCurrentTime,
+    setVolume,
   };
+
+  useEffect(() => {
+    if (!state.currentTrack) return;
+    try {
+      const toSave = {
+        currentTrack: state.currentTrack,
+        currentStep: state.currentStep,
+        gameStatus: state.gameStatus,
+        attempts: state.attempts,
+        playedTrackIds: state.playedTrackIds,
+      };
+      localStorage.setItem('song_guess_game_state', JSON.stringify(toSave));
+    } catch {
+      // ignore storage errors
+    }
+  }, [state.currentTrack, state.currentStep, state.gameStatus, state.attempts, state.playedTrackIds]);
 
   return <GameContext.Provider value={value}>{children}</GameContext.Provider>;
 }

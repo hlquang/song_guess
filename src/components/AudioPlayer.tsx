@@ -2,10 +2,11 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { useGameContext } from '../context/GameContext';
 import { useAudioController } from '../hooks/useAudioController';
 import { STEP_THRESHOLDS } from '../utils/audioTiming';
+import { suppressSearchClose } from '../utils/searchBarEvents';
 
 export default function AudioPlayer() {
   const ctx = useGameContext();
-  const { currentTrack, currentStep, gameStatus, isPlaying, advanceStep, play, pause, giveUp, attempts } = ctx;
+  const { currentTrack, currentStep, gameStatus, isPlaying, advanceStep, play, pause, giveUp, attempts, volume } = ctx;
   const [wrongFlash, setWrongFlash] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
 
@@ -17,6 +18,16 @@ export default function AudioPlayer() {
       return () => clearTimeout(timer);
     }
   }, [attempts]);
+
+  useEffect(() => {
+    const handler = () => {
+      if (document.hidden && gameStatus === 'PLAYING') {
+        pause();
+      }
+    };
+    document.addEventListener('visibilitychange', handler);
+    return () => document.removeEventListener('visibilitychange', handler);
+  }, [gameStatus, pause]);
 
   const handleThresholdReached = useCallback(() => {
     ctx.pause();
@@ -34,6 +45,7 @@ export default function AudioPlayer() {
     currentStep,
     gameStatus,
     isPlaying,
+    volume,
     onTimeUpdate: () => {},
     onThresholdReached: handleThresholdReached,
   });
@@ -187,13 +199,13 @@ export default function AudioPlayer() {
   const progress = Math.max(0, Math.min(1, currentTime / maxThreshold));
 
   return (
-    <div className="w-full max-w-2xl mx-auto p-4">
+    <div className="w-full max-w-2xl mx-auto p-3 sm:p-4">
       {isLoading && (
-        <div className="text-sm text-pink-400 mb-2">Đang tải...</div>
+        <div className="text-xs sm:text-sm text-pink-400 mb-2">Đang tải...</div>
       )}
 
       {error && (
-        <div className="text-sm text-red-400 mb-2">
+        <div className="text-xs sm:text-sm text-red-400 mb-2">
           {error}
           <button
             onClick={retry}
@@ -205,10 +217,10 @@ export default function AudioPlayer() {
       )}
 
       {/* Timeline bar with step labels */}
-      <div className="relative mb-6">
+      <div className="relative mb-3 sm:mb-6">
         {wrongFlash && (
-          <div className="absolute -top-14 left-0 right-0 flex justify-center z-10 pointer-events-none">
-            <span className="text-5xl font-extrabold text-red-500">Tầm bậy!</span>
+          <div className="absolute -top-10 sm:-top-14 left-0 right-0 flex justify-center z-10 pointer-events-none">
+            <span className="text-3xl sm:text-5xl font-extrabold text-red-500">Tầm bậy!</span>
           </div>
         )}
 
@@ -258,7 +270,7 @@ export default function AudioPlayer() {
                     seekToTime(start);
                   }
                 }}
-                className={`absolute -translate-x-1/2 text-xs transition-colors ${
+                className={`absolute -translate-x-1/2 text-[10px] sm:text-xs transition-colors ${
                   isCurrent ? 'text-pink-700 font-bold' : isUnlocked ? 'text-pink-500' : 'text-pink-300'
                 } ${isUnlocked ? 'cursor-pointer hover:text-pink-700' : 'cursor-not-allowed'}`}
                 style={{ left: `${position}%` }}
@@ -271,31 +283,35 @@ export default function AudioPlayer() {
       </div>
 
       {/* Controls */}
-      <div className="flex items-center justify-center gap-3">
+      <div className="flex items-center justify-center gap-2 sm:gap-3">
         <button
           onClick={handlePlayPause}
+          onMouseDown={suppressSearchClose}
           disabled={gameStatus !== 'PLAYING' || isLoading}
-          className="px-5 py-2 bg-pink-500 text-white text-sm rounded hover:bg-pink-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+          className="px-4 py-1.5 text-xs sm:px-5 sm:py-2 sm:text-sm bg-pink-500 text-white rounded hover:bg-pink-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
         >
           {isPlaying ? 'Tạm dừng' : isLoading ? 'Đang tải...' : 'Phát'}
         </button>
 
         <button
           onClick={handleRevealMore}
+          onMouseDown={suppressSearchClose}
           disabled={gameStatus !== 'PLAYING' || currentStep >= STEP_THRESHOLDS.length - 1}
-          className="px-5 py-2 bg-rose-400 text-white text-sm rounded hover:bg-rose-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+          className="px-4 py-1.5 text-xs sm:px-5 sm:py-2 sm:text-sm bg-rose-400 text-white rounded hover:bg-rose-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
         >
           Nghe thêm
         </button>
 
         <button
           onClick={handleSkip}
+          onMouseDown={suppressSearchClose}
           disabled={gameStatus !== 'PLAYING'}
-          className="px-5 py-2 bg-pink-100 text-gray-700 text-sm rounded hover:bg-pink-200 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+          className="px-4 py-1.5 text-xs sm:px-5 sm:py-2 sm:text-sm bg-pink-100 text-gray-700 rounded hover:bg-pink-200 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
         >
           Bỏ qua
         </button>
       </div>
+
     </div>
   );
 }

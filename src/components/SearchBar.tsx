@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useGameContext } from '../context/GameContext';
 import { searchTracks } from '../utils/fuseSearch';
+import { consumeSearchCloseSuppression } from '../utils/searchBarEvents';
 import { SpotifyTrack } from '../types';
 
 export default function SearchBar() {
@@ -21,6 +22,7 @@ export default function SearchBar() {
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
+      if (consumeSearchCloseSuppression()) return;
       if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
         setIsOpen(false);
       }

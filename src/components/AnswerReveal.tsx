@@ -3,7 +3,7 @@ import { useGameContext } from '../context/GameContext';
 
 export default function AnswerReveal() {
   const ctx = useGameContext();
-  const { currentTrack, gameStatus, nextTrack } = ctx;
+  const { currentTrack, gameStatus, nextTrack, volume } = ctx;
 
   if (!currentTrack || (gameStatus !== 'WON' && gameStatus !== 'LOST')) {
     return null;
@@ -21,6 +21,7 @@ export default function AnswerReveal() {
     if (!currentTrack?.preview_url) return;
     const audio = new Audio(currentTrack.preview_url);
     audio.preload = 'auto';
+    audio.volume = volume;
     audioRef.current = audio;
 
     const handleTimeUpdate = () => {
@@ -227,8 +228,8 @@ export default function AnswerReveal() {
   const hasPreview = !!currentTrack.preview_url;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-pink-900/30 p-4">
-      <div className="bg-white border border-pink-200 rounded-2xl p-6 max-w-sm w-full shadow-2xl">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-pink-900/30 p-3 sm:p-4">
+      <div className="bg-white border border-pink-200 rounded-2xl p-4 sm:p-6 max-w-sm w-full shadow-2xl">
         <div className="text-center mb-4">
           <h2 className={`text-2xl font-bold ${isWon ? 'text-pink-600' : 'text-gray-600'}`}>
             {isWon ? 'Chính xác!' : 'Rất tiếc! Bài hát là:'}
@@ -240,7 +241,7 @@ export default function AnswerReveal() {
             <img
               src={currentTrack.album_art}
               alt={currentTrack.name}
-              className="w-48 h-48 rounded-lg object-cover shadow-lg"
+              className="w-32 h-32 sm:w-48 sm:h-48 rounded-lg object-cover shadow-lg"
             />
           )}
 

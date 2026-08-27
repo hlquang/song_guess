@@ -2,7 +2,36 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="theme-color" content="#fdf2f8" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <style>
+      .volume-slider {
+        -webkit-appearance: none;
+        appearance: none;
+        height: 6px;
+        border-radius: 3px;
+        background: #fbcfe8;
+        outline: none;
+      }
+      .volume-slider::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        background: #fff;
+        border: 2px solid #ec4899;
+        cursor: pointer;
+      }
+      .volume-slider::-moz-range-thumb {
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        background: #fff;
+        border: 2px solid #ec4899;
+        cursor: pointer;
+      }
+    </style>
     <title>Song Guess</title>
     <link rel="preconnect" href="https://p.scdn.co" />
     <link rel="preconnect" href="https://open.spotify.com" />

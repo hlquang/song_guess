@@ -4,7 +4,7 @@ import os
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
 PLAYLIST_IDS = [
-    "3dNDkUc9lkOT5qVqTPuzCw",
+    "",
 ]
 
 TRACKS_OUTPUT_PATH = os.path.join(

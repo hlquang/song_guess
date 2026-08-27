@@ -7,6 +7,7 @@ export function useAudioController({
   currentStep,
   gameStatus,
   isPlaying,
+  volume,
   onTimeUpdate,
   onThresholdReached,
 }: {
@@ -14,6 +15,7 @@ export function useAudioController({
   currentStep: number;
   gameStatus: GameStatus;
   isPlaying: boolean;
+  volume: number;
   onTimeUpdate: (time: number) => void;
   onThresholdReached: () => void;
 }) {
@@ -39,6 +41,12 @@ export function useAudioController({
   useEffect(() => { stateRef.current.currentStep = currentStep; }, [currentStep]);
   useEffect(() => { stateRef.current.gameStatus = gameStatus; }, [gameStatus]);
   useEffect(() => { callbacksRef.current = { onTimeUpdate, onThresholdReached }; }, [onTimeUpdate, onThresholdReached]);
+
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (!audio) return;
+    audio.volume = volume;
+  }, [volume]);
 
   const stopLoop = useCallback(() => {
     if (rafRef.current) {
@@ -107,6 +115,7 @@ export function useAudioController({
     const audio = new Audio();
     audio.preload = 'auto';
     audio.crossOrigin = 'anonymous';
+    audio.volume = volume;
     audioRef.current = audio;
 
     const handleLoadedMetadata = () => {
@@ -213,38 +222,11 @@ export function useAudioController({
 
 
   useEffect(() => {
-    const handler = () => {
-      if (document.hidden && stateRef.current.isPlaying) {
-        stateRef.current.isPlaying = false;
-        applyPlayState();
-      }
-    };
-    document.addEventListener('visibilitychange', handler);
-    return () => document.removeEventListener('visibilitychange', handler);
-  }, [applyPlayState]);
-
-  useEffect(() => {
     if (gameStatus !== 'PLAYING') {
       stateRef.current.isPlaying = false;
       applyPlayState();
     }
   }, [gameStatus, applyPlayState]);
-
-  useEffect(() => {
-    const unlock = () => {
-      const audio = audioRef.current;
-      if (audio && audio.readyState >= 2 && !stateRef.current.isPlaying && stateRef.current.gameStatus === 'PLAYING') {
-        stateRef.current.isPlaying = true;
-        applyPlayState();
-      }
-    };
-    document.addEventListener('touchstart', unlock, { once: true });
-    document.addEventListener('click', unlock, { once: true });
-    return () => {
-      document.removeEventListener('touchstart', unlock);
-      document.removeEventListener('click', unlock);
-    };
-  }, [applyPlayState]);
 
   useEffect(() => {
     if (!isLoading) return;
