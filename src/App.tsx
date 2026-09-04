@@ -75,7 +75,7 @@ function GameContent({ tracks, tagFilter, setTagFilter }: { tracks: SpotifyTrack
       </main>
 
       <footer className="px-3 py-3 sm:px-4 sm:py-4 border-t border-pink-200 bg-white/60" style={{ paddingBottom: 'max(0.75rem, env(safe-area-inset-bottom))' }}>
-        <SearchBar />
+        <SearchBar tagFilter={tagFilter} />
       </footer>
 
       <AnswerReveal />
@@ -86,7 +86,19 @@ function GameContent({ tracks, tagFilter, setTagFilter }: { tracks: SpotifyTrack
 function App() {
   const [tracks, setTracks] = useState<SpotifyTrack[]>([]);
   const [error, setError] = useState(false);
-  const [tagFilter, setTagFilter] = useState<TagFilterValue>('all');
+  const [tagFilter, setTagFilter] = useState<TagFilterValue>(() => {
+    try {
+      const saved = localStorage.getItem('song_guess_tag_filter');
+      if (saved === 'vn' || saved === 'kr' || saved === 'all') return saved;
+    } catch {}
+    return 'all';
+  });
+
+  useEffect(() => {
+    try {
+      localStorage.setItem('song_guess_tag_filter', tagFilter);
+    } catch {}
+  }, [tagFilter]);
 
   useEffect(() => {
     fetch(`${import.meta.env.BASE_URL}data/tracks.json`)

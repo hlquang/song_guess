@@ -232,7 +232,7 @@ export default function AnswerReveal() {
       <div className="bg-white border border-pink-200 rounded-2xl p-4 sm:p-6 max-w-sm w-full shadow-2xl">
         <div className="text-center mb-4">
           <h2 className={`text-2xl font-bold ${isWon ? 'text-pink-600' : 'text-gray-600'}`}>
-            {isWon ? 'Chính xác!' : 'Rất tiếc! Bài hát là:'}
+            {isWon ? 'Đúng rồi!' : 'Sai rồi! Bài hát là:'}
           </h2>
         </div>
 

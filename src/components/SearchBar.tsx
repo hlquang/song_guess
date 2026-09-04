@@ -4,8 +4,14 @@ import { searchTracks } from '../utils/fuseSearch';
 import { consumeSearchCloseSuppression } from '../utils/searchBarEvents';
 import { SpotifyTrack } from '../types';
 
-export default function SearchBar() {
-  const { submitGuess, gameStatus } = useGameContext();
+type TagFilterValue = 'all' | 'vn' | 'kr';
+
+interface SearchBarProps {
+  tagFilter: TagFilterValue;
+}
+
+export default function SearchBar({ tagFilter }: SearchBarProps) {
+  const { submitGuess, gameStatus, currentTrack } = useGameContext();
   const [query, setQuery] = useState('');
   const [results, setResults] = useState<SpotifyTrack[]>([]);
   const [activeIndex, setActiveIndex] = useState(-1);
@@ -38,15 +44,25 @@ export default function SearchBar() {
 
     if (debounceRef.current) clearTimeout(debounceRef.current);
     debounceRef.current = window.setTimeout(() => {
-      const tracks = (window as any).__SONG_GUESS_TRACKS__ as SpotifyTrack[] | undefined;
-      if (tracks && value.trim()) {
-        const found = searchTracks(value, tracks);
-        setResults(found);
-        setIsOpen(found.length > 0);
-      } else {
+      const allTracks = (window as any).__SONG_GUESS_TRACKS__ as SpotifyTrack[] | undefined;
+      if (!allTracks || !value.trim()) {
         setResults([]);
         setIsOpen(false);
+        return;
       }
+
+      let scope = allTracks;
+      if (tagFilter !== 'all') {
+        if (currentTrack) {
+          scope = allTracks.filter(t => t.tag === currentTrack.tag);
+        } else {
+          scope = allTracks.filter(t => t.tag === tagFilter);
+        }
+      }
+
+      const found = searchTracks(value, scope);
+      setResults(found);
+      setIsOpen(found.length > 0);
     }, 150);
   };
 
