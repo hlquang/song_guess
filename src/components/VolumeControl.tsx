@@ -1,12 +1,24 @@
-import { useState } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import { useGameContext } from '../context/GameContext';
 
 export default function VolumeControl() {
   const { volume, setVolume } = useGameContext();
   const [open, setOpen] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!open) return;
+    const handleClickOutside = (e: MouseEvent) => {
+      if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
+        setOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [open]);
 
   return (
-    <div className="flex items-center gap-1">
+    <div className="relative" ref={containerRef}>
       <button
         onClick={() => setOpen(v => !v)}
         className="text-pink-600 hover:text-pink-700 leading-none p-0.5"
@@ -25,21 +37,20 @@ export default function VolumeControl() {
           </svg>
         )}
       </button>
-      <div
-        className={`overflow-hidden transition-all duration-200 ${
-          open ? 'max-w-[100px] sm:max-w-[120px] opacity-100' : 'max-w-0 opacity-0'
-        }`}
-      >
-        <input
-          type="range"
-          min="0"
-          max="1"
-          step="0.01"
-          value={volume}
-          onChange={(e) => setVolume(parseFloat(e.target.value))}
-          className="volume-slider w-full h-1.5 sm:h-2 cursor-pointer"
-        />
-      </div>
+      {open && (
+        <div className="absolute top-full left-1/2 -translate-x-1/2 mt-1.5 bg-white border border-pink-200 rounded-xl shadow-lg p-2.5 w-10 sm:w-12 h-32 z-50 flex items-center justify-center">
+          <input
+            type="range"
+            min="0"
+            max="1"
+            step="0.01"
+            value={volume}
+            onChange={(e) => setVolume(parseFloat(e.target.value))}
+            className="volume-slider cursor-pointer"
+            style={{ writingMode: 'vertical-lr', direction: 'rtl', height: '100%', width: '100%' }}
+          />
+        </div>
+      )}
     </div>
   );
 }

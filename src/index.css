@@ -10,3 +10,53 @@ body {
   background-color: #fff1f2;
   color: #1f2937;
 }
+
+.volume-slider {
+  writing-mode: vertical-lr;
+  direction: rtl;
+  appearance: none;
+  background: transparent;
+  height: 128px;
+  width: 24px;
+  cursor: pointer;
+}
+
+.volume-slider::-webkit-slider-runnable-track {
+  writing-mode: vertical-lr;
+  direction: rtl;
+  appearance: none;
+  width: 4px;
+  background: #fbcfe8;
+  border-radius: 9999px;
+}
+
+.volume-slider::-moz-range-track {
+  writing-mode: vertical-lr;
+  direction: rtl;
+  appearance: none;
+  width: 4px;
+  background: #fbcfe8;
+  border-radius: 9999px;
+  border: none;
+}
+
+.volume-slider::-webkit-slider-thumb {
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 9999px;
+  background: #ec4899;
+  border: none;
+  cursor: pointer;
+  margin-left: -6px;
+}
+
+.volume-slider::-moz-range-thumb {
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 9999px;
+  background: #ec4899;
+  border: none;
+  cursor: pointer;
+}

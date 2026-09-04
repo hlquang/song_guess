@@ -7,6 +7,8 @@ PLAYLIST_IDS = [
     "",
 ]
 
+TAG = ""
+
 TRACKS_OUTPUT_PATH = os.path.join(
     os.path.dirname(__file__), "..", "public", "data", "tracks.json"
 )
@@ -31,6 +33,7 @@ def normalize_track(track):
         "album_art": album_art,
         "spotify_url": f"https://open.spotify.com/track/{track.id}",
         "duration_ms": track.duration_ms or 0,
+        "tag": TAG,
     }
 
 
@@ -49,11 +52,21 @@ def main():
     client = SpotifyClient()
 
     seen = {}
+    seen_preview_urls = set()
     if os.path.exists(TRACKS_OUTPUT_PATH):
         try:
             with open(TRACKS_OUTPUT_PATH, "r", encoding="utf-8") as fh:
                 for t in json.load(fh):
+                    preview_url = t.get("preview_url")
+                    if not preview_url:
+                        print(f"  Skipped existing track: missing preview_url - {t.get('id')}")
+                        continue
+                    if preview_url in seen_preview_urls:
+                        print(f"  Skipped existing track: duplicate preview_url - {t.get('name')} ({t.get('id')})")
+                        continue
+                    t.setdefault("tag", TAG)
                     seen[t["id"]] = t
+                    seen_preview_urls.add(preview_url)
             print(f"Loaded {len(seen)} existing tracks")
         except Exception as exc:
             print(f"Warning: failed to load existing tracks: {exc}")
@@ -93,7 +106,14 @@ def main():
                 result = future.result()
                 done += 1
                 if result:
-                    seen[result["id"]] = result
+                    preview_url = result.get("preview_url")
+                    if not preview_url:
+                        print(f"  Skipped fetched track: missing preview_url - {result.get('id')}")
+                    elif preview_url in seen_preview_urls:
+                        print(f"  Skipped fetched track: duplicate preview_url - {result.get('name')} ({result.get('id')})")
+                    else:
+                        seen[result["id"]] = result
+                        seen_preview_urls.add(preview_url)
                 if done % 50 == 0 or done == len(unique_ids):
                     print(f"  Progress: {done}/{len(unique_ids)} tracks processed")
 

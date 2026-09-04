@@ -6,6 +6,7 @@ export interface SpotifyTrack {
   album_art: string;
   spotify_url: string;
   duration_ms: number;
+  tag: string;
 }
 
 export interface GuessAttempt {

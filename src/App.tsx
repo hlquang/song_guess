@@ -6,7 +6,10 @@ import SearchBar from './components/SearchBar';
 import StreakCounter from './components/StreakCounter';
 import AnswerReveal from './components/AnswerReveal';
 import VolumeControl from './components/VolumeControl';
+import TagFilter from './components/TagFilter';
 import { SpotifyTrack } from './types';
+
+type TagFilterValue = 'all' | 'vn' | 'kr';
 
 function shuffleArray<T>(array: T[]): T[] {
   const shuffled = [...array];
@@ -17,7 +20,7 @@ function shuffleArray<T>(array: T[]): T[] {
   return shuffled;
 }
 
-function GameContent({ tracks }: { tracks: SpotifyTrack[] }) {
+function GameContent({ tracks, tagFilter, setTagFilter }: { tracks: SpotifyTrack[]; tagFilter: TagFilterValue; setTagFilter: (value: TagFilterValue) => void }) {
   const ctx = useGameContext();
   const { currentTrack, startNewGame, restoreGame } = ctx;
 
@@ -60,6 +63,7 @@ function GameContent({ tracks }: { tracks: SpotifyTrack[] }) {
       <header className="flex items-center justify-between px-3 py-2 sm:px-4 sm:py-3 border-b border-pink-200 bg-white/60" style={{ paddingTop: 'max(0.5rem, env(safe-area-inset-top))' }}>
         <h1 className="text-lg sm:text-xl font-bold text-pink-600">Songvia</h1>
         <div className="flex items-center gap-2 sm:gap-3">
+          <TagFilter value={tagFilter} onChange={setTagFilter} />
           <VolumeControl />
           <StreakCounter />
         </div>
@@ -82,6 +86,7 @@ function GameContent({ tracks }: { tracks: SpotifyTrack[] }) {
 function App() {
   const [tracks, setTracks] = useState<SpotifyTrack[]>([]);
   const [error, setError] = useState(false);
+  const [tagFilter, setTagFilter] = useState<TagFilterValue>('all');
 
   useEffect(() => {
     fetch(`${import.meta.env.BASE_URL}data/tracks.json`)
@@ -90,7 +95,12 @@ function App() {
       .catch(() => setError(true));
   }, []);
 
-  const shuffledTracks = useMemo(() => shuffleArray(tracks), [tracks]);
+  const filteredTracks = useMemo(() => {
+    if (tagFilter === 'all') return tracks;
+    return tracks.filter(t => t.tag === tagFilter);
+  }, [tracks, tagFilter]);
+
+  const shuffledTracks = useMemo(() => shuffleArray(filteredTracks), [filteredTracks]);
 
   useEffect(() => {
     (window as unknown as Record<string, SpotifyTrack[]>).__SONG_GUESS_TRACKS__ = tracks;
@@ -114,7 +124,7 @@ function App() {
 
   return (
     <GameProvider tracks={shuffledTracks}>
-      <GameContent tracks={shuffledTracks} />
+      <GameContent tracks={shuffledTracks} tagFilter={tagFilter} setTagFilter={setTagFilter} />
     </GameProvider>
   );
 }
